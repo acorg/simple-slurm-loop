@@ -28,7 +28,9 @@ There is a `Makefile` that can be used via
 * `make clean` - cleans up output files.
 
 You can adapt this to your own purposes by replacing the worker and the
-checker (and likely altering the shared variables in `common.sh`).
+checker (and likely altering the shared variables in `common.sh`). You'll
+also have to change the SLURM sbatch parameters (the `#SBATCH` lines) at
+the start of the worker and controller.
 
 The trivial example worker script just adds a random number to an output
 file (`slurm-loop.result`). The checker script looks at the last digit of
