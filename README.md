@@ -15,10 +15,10 @@ The scripts are:
   to run after the worker is finished. Uses `checker.sh` to determine if
   the worker is finished, had an error, or needs to be run again.
 * `worker.sh` - Does the work.
-* `cancel.sh` - Can be used to cancel (via `scancel`) the currently scheduled
-  jobs, if any.
 * `checker.sh` - Checks to see the result of the last `worker.sh` run and
   exits with a status indicating error, done, or continue.
+* `cancel.sh` - Cancels (via the SLURM `scancel` command) the
+  currently scheduled jobs, if any.
 * `common.sh` - Contains file name variables shared by other scripts.
 
 There is a `Makefile` that can be used via
