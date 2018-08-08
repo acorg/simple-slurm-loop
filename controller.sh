@@ -4,7 +4,7 @@
 #SBATCH -A ACORG-SL2-CPU
 #SBATCH -o controller-slurm.out
 #SBATCH -p skylake
-#SBATCH --time=00:05:00
+#SBATCH --time=00:01:00
 
 . common.sh
 
