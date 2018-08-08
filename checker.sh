@@ -14,7 +14,7 @@
 
 rm -f $JOBIDS
 
-# Clean up empty SLURM output files.
+# Clean up SLURM output files.
 for what in worker controller
 do
     file=$what-slurm.out
@@ -28,9 +28,8 @@ do
             # overwritten on the next iteration (if any).
             cat $file >> $LOG
             echo "--- End $file content ---" >> $LOG
-        else
-            rm $file
         fi
+        rm $file
     fi
 done
 
