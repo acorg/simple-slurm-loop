@@ -2,7 +2,7 @@
 
 #SBATCH -J worker
 #SBATCH -A ACORG-SL2-CPU
-#SBATCH -o worker-%A.out
+#SBATCH -o worker-slurm.out
 #SBATCH -p skylake
 #SBATCH --time=00:05:00
 

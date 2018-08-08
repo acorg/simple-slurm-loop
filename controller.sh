@@ -2,7 +2,7 @@
 
 #SBATCH -J control
 #SBATCH -A ACORG-SL2-CPU
-#SBATCH -o controller-%A.out
+#SBATCH -o controller-slurm.out
 #SBATCH -p skylake
 #SBATCH --time=00:05:00
 

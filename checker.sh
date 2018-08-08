@@ -14,6 +14,26 @@
 
 rm -f $JOBIDS
 
+# Clean up empty SLURM output files.
+for what in worker controller
+do
+    file=$what-slurm.out
+    if [ -f $file ]
+    then
+        if [ -s $file ]
+        then
+            echo "WARNING: SLURM output file $file was non-empty!" >> $LOG
+            echo "--- Begin $file content ---" >> $LOG
+            # Append the file content to the log because the file will be
+            # overwritten on the next iteration (if any).
+            cat $file >> $LOG
+            echo "--- End $file content ---" >> $LOG
+        else
+            rm $file
+        fi
+    fi
+done
+
 digit=$(tail -n 1 < $RESULT_FILE | awk '{print substr($1, length)}')
 
 case $digit in
