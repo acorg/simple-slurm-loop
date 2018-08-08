@@ -68,7 +68,7 @@ function scheduleWork()
     slurm-pipeline.py --specification spec.json > status.json
     echo "Pipeline scheduled to run under SLURM at $(date)." >> $LOG
 
-    # Get the ids of the final jobs (those with no dependencies) from the pipeline.
+    # Get the ids of the final jobs (those that nothing depends on) from the pipeline.
     finalJobs=$(slurm-pipeline.py --specification status.json --printFinal)
 
     # Schedule ourselves to be run again once the pipeline has finished.
