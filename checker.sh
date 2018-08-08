@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # The worker has finished. Check its output and exit with status:
 #

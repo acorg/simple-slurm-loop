@@ -12,11 +12,11 @@ function scheduleWork()
 {
     # Schedule the worker script to run under SLURM.
     workerJobId=$(sbatch -n 1 worker.sh | cut -f4 -d' ')
-    echo "Worker script scheduled to run under SLURM with job id $workerJobId" >> $LOG
+    echo "Worker script scheduled to run under SLURM with job id $workerJobId." >> $LOG
 
     # Schedule ourselves to be run again once the worker has finished.
     jobid=$(sbatch --dependency=afterok:$workerJobId -n 1 controller.sh | cut -f4 -d' ')
-    echo "Scheduled the controller to re-run (job id $jobid) once the worker is done" >> $LOG
+    echo "Scheduled the controller to re-run (job id $jobid) once the worker is done." >> $LOG
 
     # Save the running job ids so they can be canceled (via 'make cancel').
     echo $workerJobId $jobid > $JOBIDS
