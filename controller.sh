@@ -30,7 +30,7 @@ then
     cat $LOG
     exit 0
 else
-    status=$(checker.sh)
+    status=$(./checker.sh)
 
     case $status in
         0)
