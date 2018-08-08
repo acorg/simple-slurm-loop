@@ -1,6 +1,9 @@
 run:
 	./controller.sh
 
+status:
+	./status.sh
+
 cancel:
 	./cancel.sh
 

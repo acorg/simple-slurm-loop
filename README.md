@@ -17,20 +17,20 @@ The scripts are:
 * `worker.sh` - Does the work.
 * `checker.sh` - Checks to see the result of the last `worker.sh` run and
   prints a status indicating error, done, or continue.
+* `status.sh` - Prints (via the SLURM `sacct` command) the
+  status of the currently scheduled jobs, if any.
 * `cancel.sh` - Cancels (via the SLURM `scancel` command) the
   currently scheduled jobs, if any.
 * `common.sh` - Contains file name variables shared by other scripts.
 
-There is a `Makefile` that can be used via
+### Running the simple example
 
-* `make run` - starts the controller for the first time (via `controller.sh`).
-* `make cancel` - stops currently scheduled jobs, if any (via `cancel.sh`).
+There is a `Makefile` that can be used in the following ways:
+
+* `make run` (or just `make`) - starts the controller for the first time.
+* `make status` - runs `status.sh`.
+* `make cancel` - runs `cancel.sh`.
 * `make clean` - cleans up output files.
-
-You can adapt this to your own purposes by replacing the worker and the
-checker (and likely altering the shared variables in `common.sh`). You'll
-also have to change the SLURM sbatch parameters (the `#SBATCH` lines) at
-the start of the worker and controller.
 
 The trivial example worker script just adds a random number to an output
 file (`slurm-loop.result`). The checker script looks at the last digit of
@@ -43,6 +43,14 @@ a 0.3 chance it will have ended cleanly, and a 0.6 chance it should be
 continued.
 
 A log file (`slurm-loop.log`) is updated as the overall work is performed.
+
+### Customizing
+
+You can adapt all this to your own purposes by replacing the worker and the
+checker (and likely altering the shared variables in `common.sh`).
+
+You'll also definitely have to change the SLURM sbatch parameters (the
+`#SBATCH` lines) at the start of the worker and controller.
 
 ### Use with SLURM pipeline
 
