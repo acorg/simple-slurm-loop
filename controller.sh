@@ -34,21 +34,21 @@ else
 
     case $status in
         0)
-            # Everything was ok on the last run, but more computation is
-            # required, schedule more work.
-            scheduleWork
-            exit 0
-            ;;
-
-        1)
             # There was an error.
             echo "Error! Exiting at $(date)" >> $LOG
             exit 1
             ;;
 
-        2)
+        1)
             # Work completed.
             echo "Done at $(date), after $(wc -l < $RESULT_FILE) iterations." >> $LOG
+            exit 0
+            ;;
+
+        2)
+            # Everything was ok on the last run, but more computation is
+            # required, schedule more work.
+            scheduleWork
             exit 0
             ;;
 
