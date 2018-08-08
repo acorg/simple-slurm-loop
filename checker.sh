@@ -7,17 +7,17 @@
 #   2 if all work has been completed.
 #
 # For the purposes of this example, the decision on how to exit is based on
-# the first digit of the last line in the results file. That line is
-# created by the worker (in worker.sh).
+# the last digit of the last line in the results file. That line is created
+# by the worker (in worker.sh).
 
 . common.sh
 
 rm -f $JOBIDS
 
-latestResult=$(tail -n 1 < $RESULT_FILE | cut -c1)
+latestResult=$(tail -n 1 < $RESULT_FILE | awk '{print substr($1, length)}')
 
 case $latestResult in
-    1) exit 1;;
-    [2-4]) exit 2;;
+    0) exit 1;;
+    [123]) exit 2;;
     *) exit 0;;
 esac
