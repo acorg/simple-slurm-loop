@@ -16,7 +16,7 @@ The scripts are:
   the worker is finished, had an error, or needs to be run again.
 * `worker.sh` - Does the work.
 * `checker.sh` - Checks to see the result of the last `worker.sh` run and
-  exits with a status indicating error, done, or continue.
+  prints a status indicating error, done, or continue.
 * `cancel.sh` - Cancels (via the SLURM `scancel` command) the
   currently scheduled jobs, if any.
 * `common.sh` - Contains file name variables shared by other scripts.
@@ -43,3 +43,32 @@ a 0.3 chance it will have ended cleanly, and a 0.6 chance it should be
 continued.
 
 A log file (`slurm-loop.log`) is updated as the overall work is performed.
+
+### Use with SLURM pipeline
+
+You could use the above framework to repeatedly execute a more complicated
+set of commands scheduled with
+[SLURM pipeline](https://github.com/acorg/slurm-pipeline).
+
+In `controller.sh` you would change the `scheduleWork` function to call
+`slurm-pipeline.py`. Something like
+
+```sh
+function scheduleWork()
+{
+    # Schedule the pipeline to run under SLURM.
+    slurm-pipeline.py --specification spec.json > status.json
+    echo "Pipeline scheduled to run under SLURM at $(date)." >> $LOG
+
+    # Get the ids of the final jobs (those with no dependencies) from the pipeline.
+    finalJobs=$(slurm-pipeline.py --specification status.json --printFinal)
+
+    # Schedule ourselves to be run again once the pipeline has finished.
+    dependency=afterok:$(echo $finalJobs | tr ' ' :)
+    jobid=$(sbatch --dependency=$dependency -n 1 controller.sh | cut -f4 -d' ')
+    echo "Scheduled the controller to re-run (job id $jobid) once the pipeline is done." >> $LOG
+
+    # Save the running job ids so they can be canceled (via 'make cancel').
+    echo $finalJobs $jobid > $JOBIDS
+}
+```
