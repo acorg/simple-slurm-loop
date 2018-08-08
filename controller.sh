@@ -45,7 +45,7 @@ else
             exit 1
             ;;
 
-        3)
+        2)
             # Work completed.
             echo -e "\nDone at $(date), after $(wc -l < $RESULT_FILE) iterations." >> $LOG
             exit 0
