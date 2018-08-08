@@ -4,7 +4,7 @@
 #SBATCH -A ACORG-SL2-CPU
 #SBATCH -o controller-%A.out
 #SBATCH -p skylake
-#SBATCH --time=00:02:00
+#SBATCH --time=00:05:00
 
 . common.sh
 
@@ -28,8 +28,8 @@ then
     echo "SLURM loop started at $(date)" > $LOG
     scheduleWork
     cat $LOG
+    exit 0
 else
-
     status=$(checker.sh)
 
     case $status in
@@ -37,6 +37,7 @@ else
             # Everything was ok on the last run, but more computation is
             # required, schedule more work.
             scheduleWork
+            exit 0
             ;;
 
         1)
@@ -47,7 +48,7 @@ else
 
         2)
             # Work completed.
-            echo -e "\nDone at $(date), after $(wc -l < $RESULT_FILE) iterations." >> $LOG
+            echo "Done at $(date), after $(wc -l < $RESULT_FILE) iterations." >> $LOG
             exit 0
             ;;
 
