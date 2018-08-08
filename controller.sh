@@ -26,10 +26,13 @@ if [ -z "$SLURM_JOB_ID" ]
 then
     # Not running under SLURM. This is a first invocation from the command line.
     echo "SLURM loop started at $(date)" > $LOG
+    echo >> $LOG
     scheduleWork
     cat $LOG
     exit 0
 else
+    echo >> $LOG
+
     status=$(./checker.sh)
 
     case $status in
